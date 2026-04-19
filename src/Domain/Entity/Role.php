@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\Service\UuidGenerator;
+use Random\RandomException;
 
 class Role
 {
@@ -97,6 +98,9 @@ class Role
         return false;
     }
 
+    /**
+     * @throws RandomException
+     */
     private static function generateUuid(): string
     {
         return sprintf(
