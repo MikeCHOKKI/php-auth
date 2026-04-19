@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\ValueObject;
 
 use InvalidArgumentException;
+use Random\RandomException;
 
 final readonly class UserId
 {
@@ -15,14 +16,27 @@ final readonly class UserId
             throw new InvalidArgumentException('User ID cannot be empty');
         }
 
-        if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $this->value)) {
+        if (! preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $this->value)) {
             throw new InvalidArgumentException('Invalid UUID format for User ID');
         }
     }
 
+    /**
+     * @throws RandomException
+     */
     public static function generate(): self
     {
-        return new self(uuid_create(UUID_TYPE_RANDOM));
+        return new self(sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            random_int(0, 0xffff),
+            random_int(0, 0xffff),
+            random_int(0, 0xffff),
+            random_int(0, 0x0fff) | 0x4000,
+            random_int(0, 0x3fff) | 0x8000,
+            random_int(0, 0xffff),
+            random_int(0, 0xffff),
+            random_int(0, 0xffff)
+        ));
     }
 
     public function getValue(): string

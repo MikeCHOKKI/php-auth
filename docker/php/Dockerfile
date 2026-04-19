@@ -11,9 +11,15 @@ RUN apk add --no-cache \
 RUN docker-php-ext-install \
     pdo_pgsql \
     pgsql \
-    opcache \
-    && docker-php-ext-enable \
-    sodium
+    opcache
+
+# Install Xdebug for coverage
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug sodium
+
+# Xdebug config for coverage
+RUN echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=no" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
