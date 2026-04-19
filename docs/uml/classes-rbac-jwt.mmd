@@ -1,0 +1,208 @@
+```mermaid
+classDiagram
+    class User {
+        <<entity>>
+        -id: UserId
+        -email: Email
+        -passwordHash: PasswordHash
+        -roles: Role[]
+        -createdAt: DateTime
+        -updatedAt: DateTime
+        +getId(): UserId
+        +getEmail(): Email
+        +verifyPassword(password: string, hasher: PasswordHasher): bool
+        +assignRole(role: Role): void
+        +removeRole(role: Role): void
+        +hasPermission(permission: Permission): bool
+    }
+
+    class Role {
+        <<entity>>
+        -id: string
+        -name: string
+        -description: string
+        -permissions: Permission[]
+        +getId(): string
+        +getName(): string
+        +grantPermission(permission: Permission): void
+        +revokePermission(permission: Permission): void
+        +hasPermission(permission: Permission): bool
+    }
+
+    class Permission {
+        <<entity>>
+        -id: string
+        -resource: string
+        -action: string
+        -description: string
+        +getId(): string
+        +getResource(): string
+        +getAction(): string
+        +matches(resource: string, action: string): bool
+    }
+
+    class RefreshToken {
+        <<entity>>
+        -id: string
+        -tokenHash: string
+        -userId: UserId
+        -expiresAt: DateTime
+        -createdAt: DateTime
+        -replacedBy: string
+        -revokedAt: DateTime
+        -isRevoked: bool
+        +isExpired(): bool
+        +isReplaced(): bool
+        +revoke(): void
+        +replaceWith(newTokenId: string): void
+        +belongsTo(userId: UserId): bool
+    }
+
+    class UserId {
+        <<value object>>
+        -value: string
+        +getValue(): string
+        +equals(other: UserId): bool
+    }
+
+    class Email {
+        <<value object>>
+        -value: string
+        +getValue(): string
+        +isValid(): bool
+        +equals(other: Email): bool
+    }
+
+    class PasswordHash {
+        <<value object>>
+        -hash: string
+        +verify(password: string, hasher: PasswordHasher): bool
+    }
+
+    class JwtToken {
+        <<value object>>
+        -token: string
+        -claims: array
+        +getToken(): string
+        +getClaims(): array
+        +getSubject(): string
+        +getExpiration(): DateTime
+        +isExpired(): bool
+    }
+
+    class UserRepository {
+        <<interface>>
+        +save(user: User): void
+        +findById(id: UserId): User
+        +findByEmail(email: Email): User
+        +exists(email: Email): bool
+    }
+
+    class RoleRepository {
+        <<interface>>
+        +save(role: Role): void
+        +findById(id: string): Role
+        +findByName(name: string): Role
+        +findAll(): Role[]
+    }
+
+    class PermissionRepository {
+        <<interface>>
+        +save(permission: Permission): void
+        +findById(id: string): Permission
+        +findByResourceAndAction(resource: string, action: string): Permission
+        +findAll(): Permission[]
+    }
+
+    class RefreshTokenRepository {
+        <<interface>>
+        +save(token: RefreshToken): void
+        +findByTokenHash(hash: string): RefreshToken
+        +revokeAllUserTokens(userId: UserId): void
+        +deleteExpiredTokens(): void
+    }
+
+    class PasswordHasher {
+        <<interface>>
+        +hash(password: string): PasswordHash
+        +verify(password: string, hash: PasswordHash): bool
+    }
+
+    class JwtSigner {
+        <<interface>>
+        +sign(claims: array, privateKey: string): JwtToken
+        +verify(token: JwtToken, publicKey: string): array
+    }
+
+    class AuthenticationService {
+        <<service>>
+        -userRepository: UserRepository
+        -passwordHasher: PasswordHasher
+        -jwtSigner: JwtSigner
+        -refreshTokenRepository: RefreshTokenRepository
+        +login(email: string, password: string): TokenResponse
+        +refreshToken(tokenString: string): TokenResponse
+        +logout(userId: UserId): void
+    }
+
+    class AuthorizationService {
+        <<service>>
+        -userRepository: UserRepository
+        +canUser(userId: UserId, permission: Permission): bool
+        +canUserDo(userId: UserId, resource: string, action: string): bool
+    }
+
+    class TokenRotationService {
+        <<service>>
+        -refreshTokenRepository: RefreshTokenRepository
+        +rotateToken(oldToken: RefreshToken): TokenPair
+        +detectReuse(token: RefreshToken): bool
+        +handleReuse(token: RefreshToken): void
+    }
+
+    class PostgreSqlUserRepository {
+        <<repository>>
+        -pdo: PDO
+        +save(user: User): void
+        +findById(id: UserId): User
+        +findByEmail(email: Email): User
+    }
+
+    class Rs256JwtSigner {
+        <<service>>
+        -algorithm: string
+        +sign(claims: array, privateKey: string): JwtToken
+        +verify(token: JwtToken, publicKey: string): array
+    }
+
+    class BcryptPasswordHasher {
+        <<service>>
+        +hash(password: string): PasswordHash
+        +verify(password: string, hash: PasswordHash): bool
+    }
+
+    User *-- UserId
+    User *-- Email
+    User *-- PasswordHash
+    User "1" --> "*" Role : has
+    Role "1" --> "*" Permission : grants
+    RefreshToken *-- UserId
+
+    UserRepository <|.. PostgreSqlUserRepository
+    JwtSigner <|.. Rs256JwtSigner
+    PasswordHasher <|.. BcryptPasswordHasher
+
+    AuthenticationService --> UserRepository
+    AuthenticationService --> PasswordHasher
+    AuthenticationService --> JwtSigner
+    AuthenticationService --> RefreshTokenRepository
+    AuthenticationService --> TokenRotationService
+
+    AuthorizationService --> UserRepository
+
+    TokenRotationService --> RefreshTokenRepository
+
+    RefreshTokenRepository <|.. PostgreSqlRefreshTokenRepository
+    RoleRepository <|.. PostgreSqlRoleRepository
+    PermissionRepository <|.. PostgreSqlPermissionRepository
+```

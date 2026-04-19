@@ -1,0 +1,78 @@
+```mermaid
+sequenceDiagram
+    actor Client
+    participant API as AuthController
+    participant AuthSvc as AuthenticationService
+    participant UserRepo as UserRepository
+    participant PwdHasher as PasswordHasher
+    participant JWT as JwtSigner (RS256)
+    participant TokenRepo as RefreshTokenRepository
+    participant RotSvc as TokenRotationService
+    participant DB as PostgreSQL
+
+    %% Login Flow
+    rect rgb(230, 245, 255)
+        Note over Client,DB: Login avec email/password
+        Client->>API: POST /api/auth/login<br/>{email, password}
+        API->>AuthSvc: login(email, password)
+        AuthSvc->>UserRepo: findByEmail(email)
+        UserRepo->>DB: SELECT * FROM users WHERE email = ?
+        DB-->>UserRepo: User record
+        UserRepo-->>AuthSvc: User entity
+        AuthSvc->>PwdHasher: verify(password, user.passwordHash)
+        PwdHasher-->>AuthSvc: true
+        AuthSvc->>JWT: sign({sub: user.id, roles: [...]}, privateKey)
+        JWT-->>AuthSvc: accessToken
+        AuthSvc->>TokenRepo: generateRefreshToken(user.id)
+        TokenRepo->>DB: INSERT INTO refresh_tokens
+        DB-->>TokenRepo: token record
+        TokenRepo-->>AuthSvc: refreshToken
+        AuthSvc-->>API: TokenResponse {accessToken, refreshToken}
+        API-->>Client: 200 OK + TokenResponse
+    end
+
+    %% Refresh Token Flow
+    rect rgb(255, 245, 230)
+        Note over Client,DB: Rotation du Refresh Token
+        Client->>API: POST /api/auth/refresh<br/>{refreshToken}
+        API->>AuthSvc: refreshToken(tokenString)
+        AuthSvc->>TokenRepo: findByTokenHash(hash)
+        TokenRepo->>DB: SELECT * FROM refresh_tokens WHERE token_hash = ?
+        DB-->>TokenRepo: Token record
+        TokenRepo-->>AuthSvc: RefreshToken entity
+        AuthSvc->>RotSvc: detectReuse(token)
+        RotSvc-->>AuthSvc: false (pas de réutilisation)
+        AuthSvc->>RotSvc: rotateToken(oldToken)
+        RotSvc->>TokenRepo: save(newToken)
+        RotSvc->>TokenRepo: revoke(oldToken)
+        TokenRepo->>DB: UPDATE refresh_tokens SET revoked_at = NOW() WHERE id = ?
+        TokenRepo->>DB: INSERT INTO refresh_tokens (new token)
+        TokenRepo-->>RotSvc: newToken
+        RotSvc-->>AuthSvc: TokenPair {accessToken, newRefreshToken}
+        AuthSvc->>UserRepo: findById(userId)
+        UserRepo->>DB: SELECT * FROM users WHERE id = ?
+        DB-->>UserRepo: User with roles
+        UserRepo-->>AuthSvc: User entity
+        AuthSvc->>JWT: sign({sub: user.id, roles: [...]}, privateKey)
+        JWT-->>AuthSvc: newAccessToken
+        AuthSvc-->>API: TokenResponse
+        API-->>Client: 200 OK + nouveau TokenResponse
+    end
+
+    %% Détection de réutilisation (Reuse Detection)
+    rect rgb(255, 230, 230)
+        Note over Client,DB: Détection de réutilisation (attaque)
+        Client->>API: POST /api/auth/refresh<br/>{ancien refreshToken déjà utilisé}
+        API->>AuthSvc: refreshToken(tokenString)
+        AuthSvc->>TokenRepo: findByTokenHash(hash)
+        TokenRepo-->>AuthSvc: RefreshToken (déjà remplacé ou révoqué)
+        AuthSvc->>RotSvc: detectReuse(token)
+        RotSvc-->>AuthSvc: true (réutilisation détectée!)
+        AuthSvc->>RotSvc: handleReuse(token)
+        RotSvc->>TokenRepo: revokeAllUserTokens(userId)
+        TokenRepo->>DB: UPDATE refresh_tokens SET revoked_at = NOW(), is_revoked = true WHERE user_id = ?
+        RotSvc-->>AuthSvc: SecurityException
+        AuthSvc-->>API: SecurityException
+        API-->>Client: 401 Unauthorized<br/>"Token reuse detected - all sessions revoked"
+    end
+```

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ruleset name="php-auth">
+    <description>PSR-12 Coding Standard for php-auth project</description>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="parallel" value="75"/>
+    <arg value="p"/>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <rule ref="PSR12"/>
+
+    <!-- Exclude vendor and cache -->
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>.phpunit.cache/*</exclude-pattern>
+    <exclude-pattern>coverage/*</exclude-pattern>
+
+    <!-- Allow longer lines for complex type hints -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+</ruleset>

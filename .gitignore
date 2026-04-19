@@ -1,0 +1,93 @@
+# ==========================================
+# PHP — DÉPENDANCES
+# ==========================================
+/vendor/
+composer.phar
+composer.lock
+
+# ==========================================
+# ENVIRONNEMENT — JAMAIS COMMITTÉ
+# ==========================================
+/.env
+/.env.local
+/.env.*.local
+/.env.deploy
+
+# ==========================================
+# CLÉS ET CERTIFICATS — SENSIBLE
+# ==========================================
+/keys/*.pem
+/keys/*.key
+*.pem
+*.key
+
+# ==========================================
+# LOGS ET CACHE
+# ==========================================
+*.log
+*.tmp
+*.cache
+.phpunit.result.cache
+.phpunit.cache/
+/coverage/
+/cache/
+
+# ==========================================
+# IDE ET ÉDITEURS — LOCAUX
+# ==========================================
+# Windsurf
+.windsurf/
+.windsurfrules
+implementation_plan.md
+PROJET.md
+task.md
+walkthrough.md
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PHPStorm / JetBrains
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+
+# ==========================================
+# SYSTÈME D'EXPLOITATION
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ==========================================
+# DOCKER — LOCAL
+# ==========================================
+/docker-compose.override.yml
+
+# ==========================================
+# NOTES — DOCUMENTATION EXCLUE
+# ==========================================
+# ⚠️ NE PAS ignorer docs/ — la documentation doit être commitée
+# ⚠️ NE PAS ignorer migrations/ — les migrations doivent être commitées

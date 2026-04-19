@@ -1,0 +1,67 @@
+```mermaid
+flowchart TB
+    subgraph Client["Client (Frontend)"]
+        HTTP[HTTP Requests]
+    end
+
+    subgraph API["API Layer"]
+        NGINX[Nginx]
+        ROUTER[Router PSR-7]
+        AUTH_CTRL[AuthController]
+        USER_CTRL[UserController]
+        JWT_MIDDLE[JWT Middleware]
+    end
+
+    subgraph Application["Application Layer"]
+        AUTH_SVC[AuthenticationService]
+        AUTHZ_SVC[AuthorizationService]
+        ROT_SVC[TokenRotationService]
+        DTO[(DTOs)]
+    end
+
+    subgraph Domain["Domain Layer"]
+        ENTITIES[(Entities)]
+        VOS[(Value Objects)]
+        REPO_IF[(Repository Interfaces)]
+        DOM_SVC[(Domain Services)]
+    end
+
+    subgraph Infrastructure["Infrastructure Layer"]
+        PG_REPO[PostgreSQL Repositories]
+        JWT_RS256[JwtSigner RS256]
+        BCrypt[PasswordHasher BCrypt]
+        PDO[(PDO)]
+    end
+
+    subgraph External["External"]
+        PG[(PostgreSQL)]
+    end
+
+    HTTP --> NGINX
+    NGINX --> ROUTER
+    ROUTER --> JWT_MIDDLE
+    JWT_MIDDLE --> AUTH_CTRL
+    JWT_MIDDLE --> USER_CTRL
+
+    AUTH_CTRL --> AUTH_SVC
+    AUTH_CTRL --> ROT_SVC
+    USER_CTRL --> AUTHZ_SVC
+
+    AUTH_SVC --> ENTITIES
+    AUTH_SVC --> REPO_IF
+    AUTH_SVC --> DOM_SVC
+    AUTHZ_SVC --> ENTITIES
+    ROT_SVC --> ENTITIES
+
+    REPO_IF -->|implements| PG_REPO
+    DOM_SVC -->|implements| JWT_RS256
+    DOM_SVC -->|implements| BCrypt
+
+    PG_REPO --> PDO
+    JWT_RS256 -->|sign/verify| BCrypt
+    PDO --> PG
+
+    style Domain fill:#e1f5e1,stroke:#37371F
+    style Application fill:#fff9e6,stroke:#EA9010
+    style Infrastructure fill:#e6f3ff,stroke:#0066cc
+```

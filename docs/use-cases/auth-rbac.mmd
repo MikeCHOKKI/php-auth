@@ -1,0 +1,59 @@
+```mermaid
+flowchart LR
+    subgraph Acteurs
+        U[Utilisateur]
+        A[Admin]
+    end
+
+    subgraph Authentification
+        LOGIN[S'authentifier]
+        LOGOUT[Se déconnecter]
+        REFRESH[ Rafraîchir token]
+        ME[Consulter profil]
+    end
+
+    subgraph Autorisation_RBAC
+        CHECK_PERM[Vérifier permissions]
+        LIST_PERM[Lister ses permissions]
+    end
+
+    subgraph Gestion_Users["Gestion Utilisateurs (Admin)"]
+        CREATE_USER[Créer utilisateur]
+        UPDATE_USER[Modifier utilisateur]
+        DELETE_USER[Supprimer utilisateur]
+        LIST_USERS[Lister utilisateurs]
+    end
+
+    subgraph Gestion_Roles["Gestion RBAC (Admin)"]
+        CREATE_ROLE[Créer rôle]
+        ASSIGN_ROLE[Assigner rôle à utilisateur]
+        REVOKE_ROLE[Révoquer rôle]
+        CREATE_PERM[Créer permission]
+        GRANT_PERM[Accorder permission à rôle]
+        REVOKE_PERM[Révoquer permission]
+    end
+
+    U --> LOGIN
+    U --> LOGOUT
+    U --> REFRESH
+    U --> ME
+    U --> CHECK_PERM
+    U --> LIST_PERM
+
+    A --> CREATE_USER
+    A --> UPDATE_USER
+    A --> DELETE_USER
+    A --> LIST_USERS
+    A --> CREATE_ROLE
+    A --> ASSIGN_ROLE
+    A --> REVOKE_ROLE
+    A --> CREATE_PERM
+    A --> GRANT_PERM
+    A --> REVOKE_PERM
+
+    style LOGIN fill:#37371F,color:#fff
+    style LOGOUT fill:#37371F,color:#fff
+    style REFRESH fill:#37371F,color:#fff
+    style ME fill:#EA9010,color:#000
+    style LIST_PERM fill:#EA9010,color:#000
+```

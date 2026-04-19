@@ -1,0 +1,55 @@
+```mermaid
+erDiagram
+    USERS {
+        uuid id PK
+        varchar(255) email UK
+        varchar(255) password_hash
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ROLES {
+        uuid id PK
+        varchar(100) name UK
+        text description
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PERMISSIONS {
+        uuid id PK
+        varchar(100) resource
+        varchar(100) action
+        varchar(255) description
+        timestamp created_at
+    }
+
+    REFRESH_TOKENS {
+        uuid id PK
+        uuid user_id FK
+        varchar(255) token_hash UK
+        timestamp expires_at
+        timestamp created_at
+        uuid replaced_by FK
+        timestamp revoked_at
+        boolean is_revoked
+    }
+
+    USER_ROLES {
+        uuid user_id FK
+        uuid role_id FK
+        timestamp assigned_at
+    }
+
+    ROLE_PERMISSIONS {
+        uuid role_id FK
+        uuid permission_id FK
+        timestamp granted_at
+    }
+
+    USERS ||--o{ REFRESH_TOKENS : "possède"
+    USERS ||--o{ USER_ROLES : "a"
+    ROLES ||--o{ USER_ROLES : "assigné à"
+    ROLES ||--o{ ROLE_PERMISSIONS : "a"
+    PERMISSIONS ||--o{ ROLE_PERMISSIONS : "accordée via"
+```

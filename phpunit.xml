@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         executionOrder="depends,defects"
+         requireCoverageMetadata="false"
+         beStrictAboutCoverageMetadata="false"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory suffix="Test.php">tests/Functional</directory>
+        </testsuite>
+    </testsuites>
+
+    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+
+    <coverage>
+        <report>
+            <html outputDirectory="coverage" lowUpperBound="50" highLowerBound="80"/>
+            <text outputFile="php://stdout" showUncoveredFiles="false"/>
+        </report>
+    </coverage>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_DATABASE" value="php_auth_test"/>
+        <env name="DB_USERNAME" value="postgres"/>
+        <env name="DB_PASSWORD" value="secret"/>
+        <env name="JWT_PRIVATE_KEY_PATH" value="keys/private.pem"/>
+        <env name="JWT_PUBLIC_KEY_PATH" value="keys/public.pem"/>
+    </php>
+</phpunit>
