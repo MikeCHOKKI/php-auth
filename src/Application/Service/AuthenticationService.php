@@ -9,6 +9,7 @@ use App\Domain\Entity\RefreshToken;
 use App\Domain\Repository\RefreshTokenRepository;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Service\Exception\AuthenticationException;
+use App\Domain\Service\Exception\JwtException;
 use App\Domain\Service\PasswordHasher;
 use App\Domain\ValueObject\Email;
 use App\Domain\ValueObject\JwtToken;
@@ -43,6 +44,9 @@ class AuthenticationService
         $this->refreshTokenTtl = $refreshTokenTtl;
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     public function login(string $email, string $password): array
     {
         $emailVo = new Email($email);
@@ -73,6 +77,9 @@ class AuthenticationService
         ];
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     public function refreshToken(string $refreshTokenString): array
     {
         $tokenHash = RefreshToken::hashToken($refreshTokenString);
@@ -117,6 +124,9 @@ class AuthenticationService
         $this->refreshTokenRepository->revokeAllUserTokens($userId);
     }
 
+    /**
+     * @throws JwtException|JwtException
+     */
     public function verifyAccessToken(string $tokenString): JwtToken
     {
         return $this->jwtSigner->verify($tokenString);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Service\UuidGenerator;
+
 class Role
 {
     private string $id;
@@ -32,9 +34,9 @@ class Role
     public static function create(
         string $name,
         ?string $description = null,
-        UuidGenerator $uuidGenerator = null
+        ?UuidGenerator $uuidGenerator = null
     ): self {
-        $id = $uuidGenerator ? $uuidGenerator->generate() : self::generateUuid();
+        $id = $uuidGenerator !== null ? $uuidGenerator->generate() : self::generateUuid();
 
         return new self($id, $name, $description);
     }

@@ -6,5 +6,6 @@ parameters:
     excludePaths:
         - vendor
         - coverage
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
