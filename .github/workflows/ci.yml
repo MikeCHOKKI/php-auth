@@ -57,7 +57,7 @@ jobs:
     - name: Run static analysis
       run: composer run-script analyse
 
-    - name: Run test suite
+    - name: Run test suite with coverage
       env:
         DB_HOST: localhost
         DB_PORT: 5432
@@ -66,13 +66,16 @@ jobs:
         DB_PASSWORD: secret
         JWT_PRIVATE_KEY_PATH: keys/private.pem
         JWT_PUBLIC_KEY_PATH: keys/public.pem
-      run: composer run-script test
+      run: vendor/bin/phpunit --coverage-clover coverage.xml
 
     - name: Run security audit
       run: composer audit
 
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
       with:
-        files: ./coverage.xml
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
         fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
