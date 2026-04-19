@@ -181,4 +181,4 @@ MIT — Voir [LICENSE](LICENSE)
 Ce projet utilise Windsurf. Prompt d'init :
 > "Prends connaissance de `.windsurfrules` et `PROJET.md`, lis `task.md` et `walkthrough.md`, puis confirme ton état de compréhension."
 
-Commandes disponibles : `/audit` `/feat` `/fix` `/ui` `/securite` `/roadmap` et plus dans [COMMANDES.md](COMMANDES.md).
+Commandes disponibles : `/audit` `/feat` `/fix` `/ui` `/securite` `/roadmap` `/conformite`.
