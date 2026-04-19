@@ -25,7 +25,7 @@ class JwtMiddleware
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
 
         foreach ($this->excludedPaths as $excluded) {
-            if (strpos($path, $excluded) === 0) {
+            if (str_starts_with($path, $excluded)) {
                 return;
             }
         }
@@ -34,7 +34,6 @@ class JwtMiddleware
 
         if (!preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
             $this->unauthorized('Missing or invalid Authorization header');
-            return;
         }
 
         $token = $matches[1];
@@ -44,7 +43,6 @@ class JwtMiddleware
 
             if ($jwtToken->isExpired()) {
                 $this->unauthorized('Token has expired');
-                return;
             }
 
             $_SERVER['HTTP_X_USER_ID'] = $jwtToken->getSubject();

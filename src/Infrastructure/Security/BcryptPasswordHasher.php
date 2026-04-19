@@ -25,7 +25,7 @@ final class BcryptPasswordHasher implements PasswordHasher
             'threads' => self::THREADS,
         ]);
 
-        if ($hash === false) {
+        if (!$hash) {
             throw new \RuntimeException('Failed to hash password');
         }
 

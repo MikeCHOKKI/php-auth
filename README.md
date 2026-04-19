@@ -127,7 +127,7 @@ make ci
 ```
 ┌─────────────────────────────────────┐
 │  Infrastructure                     │  ← Controllers, Repositories, JWT
-│  (Frameworks, Drivers)             │
+│  (Frameworks, Drivers)              │
 ├─────────────────────────────────────┤
 │  Application                        │  ← Services, DTOs, Ports
 │  (Use Cases)                        │
@@ -159,16 +159,16 @@ make ci
 
 ## 🛠️ Scripts Make
 
-| Commande | Description |
-|----------|-------------|
-| `make dev` | Démarrer Docker (dev) |
-| `make install` | Installer Composer dependencies |
-| `make test` | Lancer tests PHPUnit |
-| `make lint` | Linter PSR-12 |
-| `make lint-fix` | Correction auto PSR-12 |
-| `make keys` | Générer clés RSA JWT |
-| `make db-migrate` | Lancer migrations |
-| `make ci` | Pipeline complète (lint + analyse + test) |
+| Commande          | Description                               |
+|-------------------|-------------------------------------------|
+| `make dev`        | Démarrer Docker (dev)                     |
+| `make install`    | Installer Composer dependencies           |
+| `make test`       | Lancer tests PHPUnit                      |
+| `make lint`       | Linter PSR-12                             |
+| `make lint-fix`   | Correction auto PSR-12                    |
+| `make keys`       | Générer clés RSA JWT                      |
+| `make db-migrate` | Lancer migrations                         |
+| `make ci`         | Pipeline complète (lint + analyse + test) |
 
 ## 📄 License
 

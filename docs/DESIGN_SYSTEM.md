@@ -15,17 +15,17 @@
 
 ## Palette
 
-| Token | Valeur | Usage |
-|-------|--------|-------|
-| **Primary** | `#37371F` | Headers, titres, accents sombres (vert-olive foncé) |
-| **Accent** | `#EA9010` | Actions, liens, badges (orange vif) |
-| **Background** | `#FAFAF9` | Fond principal (gris très clair chaud) |
-| **Surface** | `#FFFFFF` | Cartes, modales, contenus |
-| **Text** | `#1C1917` | Texte principal (noir chaud) |
-| **Text Muted** | `#78716C` | Texte secondaire (gris taupe) |
-| **Border** | `#E7E5E4` | Bordures, séparateurs |
-| **Success** | `#15803D` | États positifs |
-| **Error** | `#DC2626` | Erreurs, alertes |
+| Token          | Valeur    | Usage                                               |
+|----------------|-----------|-----------------------------------------------------|
+| **Primary**    | `#37371F` | Headers, titres, accents sombres (vert-olive foncé) |
+| **Accent**     | `#EA9010` | Actions, liens, badges (orange vif)                 |
+| **Background** | `#FAFAF9` | Fond principal (gris très clair chaud)              |
+| **Surface**    | `#FFFFFF` | Cartes, modales, contenus                           |
+| **Text**       | `#1C1917` | Texte principal (noir chaud)                        |
+| **Text Muted** | `#78716C` | Texte secondaire (gris taupe)                       |
+| **Border**     | `#E7E5E4` | Bordures, séparateurs                               |
+| **Success**    | `#15803D` | États positifs                                      |
+| **Error**      | `#DC2626` | Erreurs, alertes                                    |
 
 ### Utilisation API Documentation
 
@@ -38,14 +38,14 @@ Les couleurs sont appliquées dans :
 
 ## Typographie
 
-| Rôle | Font | Taille | Grammage | Usage |
-|------|------|--------|----------|-------|
-| **Titre H1** | Inter | 2.25rem (36px) | 700 | Titres pages |
-| **Titre H2** | Inter | 1.5rem (24px) | 600 | Sections |
-| **Titre H3** | Inter | 1.25rem (20px) | 600 | Sous-sections |
-| **Corps** | Inter | 1rem (16px) | 400 | Texte standard |
-| **Code** | JetBrains Mono | 0.875rem (14px) | 400 | Blocs code, endpoints |
-| **Label** | Inter | 0.75rem (12px) | 500 | Badges, métadonnées |
+| Rôle         | Font           | Taille          | Grammage | Usage                 |
+|--------------|----------------|-----------------|----------|-----------------------|
+| **Titre H1** | Inter          | 2.25rem (36px)  | 700      | Titres pages          |
+| **Titre H2** | Inter          | 1.5rem (24px)   | 600      | Sections              |
+| **Titre H3** | Inter          | 1.25rem (20px)  | 600      | Sous-sections         |
+| **Corps**    | Inter          | 1rem (16px)     | 400      | Texte standard        |
+| **Code**     | JetBrains Mono | 0.875rem (14px) | 400      | Blocs code, endpoints |
+| **Label**    | Inter          | 0.75rem (12px)  | 500      | Badges, métadonnées   |
 
 ### Stack Font
 
@@ -74,10 +74,10 @@ font-family: 'JetBrains Mono', 'Fira Code', monospace; /* Code */
 
 ### Tableaux
 
-| Méthode | Endpoint | Auth |
-|---------|----------|------|
-| POST | `/api/auth/login` | Non |
-| GET | `/api/me` | Bearer JWT |
+| Méthode | Endpoint          | Auth       |
+|---------|-------------------|------------|
+| POST    | `/api/auth/login` | Non        |
+| GET     | `/api/me`         | Bearer JWT |
 
 ---
 

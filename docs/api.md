@@ -7,10 +7,10 @@
 
 ## Base URL
 
-| Environnement | URL |
-|--------------|-----|
-| Development | `http://localhost:8080` |
-| Production | `https://api.example.com` |
+| Environnement | URL                       |
+|---------------|---------------------------|
+| Development   | `http://localhost:8080`   |
+| Production    | `https://api.example.com` |
 
 ---
 
@@ -26,9 +26,9 @@ Authorization: Bearer <access_token>
 
 ### Types de Tokens
 
-| Token | Durée | Usage |
-|-------|-------|-------|
-| Access Token | 15 minutes (900s) | Authentification API |
+| Token         | Durée             | Usage                  |
+|---------------|-------------------|------------------------|
+| Access Token  | 15 minutes (900s) | Authentification API   |
 | Refresh Token | 7 jours (604800s) | Renouvellement session |
 
 ---
@@ -197,13 +197,13 @@ Authorization: Bearer <access_token>
 
 ## Codes d'Erreur
 
-| Code | Description |
-|------|-------------|
-| 400 | Bad Request — Données invalides |
-| 401 | Unauthorized — Token manquant, invalide ou expiré |
-| 403 | Forbidden — Permission insuffisante |
-| 404 | Not Found — Endpoint inexistant |
-| 500 | Internal Server Error |
+| Code | Description                                       |
+|------|---------------------------------------------------|
+| 400  | Bad Request — Données invalides                   |
+| 401  | Unauthorized — Token manquant, invalide ou expiré |
+| 403  | Forbidden — Permission insuffisante               |
+| 404  | Not Found — Endpoint inexistant                   |
+| 500  | Internal Server Error                             |
 
 ---
 
