@@ -6,6 +6,9 @@ on:
     types: [ completed ]
     branches: [ main, develop ]
 
+permissions:
+  contents: write
+
 jobs:
   coverage-report:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
