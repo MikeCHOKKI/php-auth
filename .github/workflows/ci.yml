@@ -66,13 +66,6 @@ jobs:
           JWT_PUBLIC_KEY_PATH: keys/public.pem
         run: vendor/bin/phpunit --coverage-clover coverage.xml
 
-      - name: Upload coverage.xml artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage.xml
-          path: coverage.xml
-          retention-days: 1
-
       - name: Run security audit
         run: composer audit
 
