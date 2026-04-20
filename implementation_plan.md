@@ -29,49 +29,49 @@ Système d'authentification professionnel démontrant :
 
 ### Phase 2 — Infrastructure Docker
 
-- [ ] docker-compose.yml (PHP 8.3-FPM, PostgreSQL 15, Nginx)
-- [ ] Dockerfile PHP (extensions: pdo_pgsql, sodium, opcache)
-- [ ] Configuration Nginx (PHP-FPM, headers sécurité)
-- [ ] .env.example adapté (PHP/PostgreSQL, pas Node.js)
-- [ ] Makefile corrigé pour PHP
+- [x] docker-compose.yml (PHP 8.3-FPM, PostgreSQL 15, Nginx)
+- [x] Dockerfile PHP (extensions: pdo_pgsql, sodium, opcache, xdebug)
+- [x] Configuration Nginx (PHP-FPM, headers sécurité)
+- [x] .env.example adapté (PHP/PostgreSQL, pas Node.js)
+- [x] Makefile corrigé pour PHP
 
 ### Phase 3 — Configuration Projet
 
-- [ ] composer.json avec autoloading PSR-4
-- [ ] Dépendances : firebase/php-jwt, vlucas/phpdotenv, psr/http-message
-- [ ] phpunit.xml configuration
-- [ ] phpcs.xml (PSR-12 linting)
-- [ ] Scripts Composer (test, lint)
+- [x] composer.json avec autoloading PSR-4
+- [x] Dépendances : firebase/php-jwt, vlucas/phpdotenv, psr/http-message
+- [x] phpunit.xml configuration
+- [x] phpcs.xml (PSR-12 linting)
+- [x] Scripts Composer (test, lint, analyse)
 
 ### Phase 4 — Domain Layer (Core)
 
-- [ ] Entities : User, Role, Permission, RefreshToken
-- [ ] Value Objects : Email, PasswordHash, JwtToken, UserId
-- [ ] Repository Interfaces (Ports) : UserRepository, RoleRepository, etc.
-- [ ] Domain Services : PasswordHasher (Argon2id), JwtSignerInterface
+- [x] Entities : User, Role, Permission, RefreshToken
+- [x] Value Objects : Email, PasswordHash, JwtToken, UserId
+- [x] Repository Interfaces (Ports) : UserRepository, RoleRepository, etc.
+- [x] Domain Services : PasswordHasher (Argon2id), JwtSignerInterface, UuidGenerator
 
 ### Phase 5 — Application Layer
 
-- [ ] DTOs : LoginRequest, TokenResponse, RegisterRequest
-- [ ] Services : AuthenticationService, AuthorizationService, TokenRotationService
-- [ ] Ports : TokenGenerator, TokenVerifier, RefreshTokenStorage
+- [x] DTOs : LoginRequest, TokenResponse, RegisterRequest (intégrés dans services)
+- [x] Services : AuthenticationService, AuthorizationService, TokenRotationService
+- [x] Ports : TokenGenerator, TokenVerifier, RefreshTokenStorage (interfaces intégrées)
 
 ### Phase 6 — Infrastructure Layer
 
-- [ ] PostgreSQL Repositories (implementations)
-- [ ] JwtServiceRS256 (clés RSA)
-- [ ] RefreshTokenRepository (rotation + détection réutilisation)
-- [ ] BcryptPasswordHasher
-- [ ] PSR-15 Middleware JWT Validation
-- [ ] Controllers : AuthController, UserController
+- [x] PostgreSQL Repositories (implementations)
+- [x] JwtServiceRS256 (clés RSA)
+- [x] RefreshTokenRepository (rotation + détection réutilisation)
+- [x] BcryptPasswordHasher (Argon2id)
+- [x] PSR-15 Middleware JWT Validation
+- [x] Controllers : AuthController, UserController
 
 ### Phase 7 — API Layer
 
-- [ ] Router PSR-7 compatible
-- [ ] Endpoints auth : POST /api/auth/login, /api/auth/refresh, /api/auth/logout
-- [ ] Endpoints utilitaires : GET /api/me, GET /api/permissions
-- [ ] Error handling JSON standardisé
-- [ ] Input validation
+- [x] Router PSR-7 compatible (intégré dans index.php)
+- [x] Endpoints auth : POST /api/auth/login, /api/auth/refresh, /api/auth/logout
+- [x] Endpoints utilitaires : GET /api/me, GET /api/permissions
+- [x] Error handling JSON standardisé
+- [x] Input validation (basique)
 
 ### Phase 8 — Tests
 
@@ -82,17 +82,18 @@ Système d'authentification professionnel démontrant :
 
 ### Phase 9 — CI/CD
 
-- [ ] .github/workflows/ci.yml (tests, lint PSR-12, audit sécurité)
+- [x] .github/workflows/ci.yml (tests, lint PSR-12, audit sécurité)
+- [x] .github/workflows/coverage-report.yml (rapports HTML + XML + notification)
 - [ ] .github/workflows/cd.yml (docker build, push registry)
-- [ ] Scripts de génération clés RSA pour CI
+- [x] Scripts de génération clés RSA pour CI (make generate-test-keys)
 
 ### Phase 10 — Documentation
 
-- [ ] README.md : badges CI, installation rapide
-- [ ] docs/api.md : endpoints complets avec exemples cURL
-- [ ] docs/architecture.md : décisions techniques (RS256 vs HS256, rotation tokens)
+- [x] README.md : badges CI, installation rapide
+- [x] docs/api.md : endpoints complets avec exemples cURL
+- [x] docs/architecture.md : décisions techniques (RS256 vs HS256, rotation tokens)
 - [ ] docs/security.md : modèle de menaces
-- [ ] docs/decisions/ADR-001 à ADR-005
+- [x] docs/decisions/ADR-001 à ADR-002
 
 ---
 
